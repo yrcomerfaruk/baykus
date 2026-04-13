@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/omerf/OneDrive/Desktop/Baykus/baykus/components/Loading.tsx"],"sourcesContent":["export default function Loading() {\n  return (\n    <div className=\"absolute inset-0 bg-white z-10 flex items-center justify-center\">\n      <div className=\"w-12 h-12 border-4 border-[#0c003d] border-t-transparent rounded-full animate-spin\"></div>\n    </div>\n  )\n}\n"],"names":["Loading","className"],"mappings":";;;;;;AAAe,SAASA;IACtB,qBACE,8OAAC;QAAIC,WAAU;kBACb,cAAA,8OAAC;YAAIA,WAAU;;;;;;;;;;;AAGrB"}},
+    {"offset": {"line": 30, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/omerf/OneDrive/Desktop/Baykus/baykus/app/page.tsx"],"sourcesContent":["'use client'\n\nimport { useEffect } from 'react'\nimport { useRouter } from 'next/navigation'\nimport Loading from '@/components/Loading'\n\nexport default function Home() {\n  const router = useRouter()\n\n  useEffect(() => {\n    router.push('/auth')\n  }, [router])\n\n  return <Loading />\n}\n"],"names":["Home","router","push"],"mappings":";;;;;AAEA;AACA;AACA;AAJA;;;;;AAMe,SAASA;IACtB,MAAMC,SAAS,IAAA,+IAAS;IAExB,IAAA,kNAAS,EAAC;QACRA,OAAOC,IAAI,CAAC;IACd,GAAG;QAACD;KAAO;IAEX,qBAAO,8OAAC,iIAAO;;;;;AACjB"}}]
+}

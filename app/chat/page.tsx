@@ -173,14 +173,23 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-white overflow-hidden">
+    <div className="h-screen w-screen flex flex-col bg-white overflow-hidden relative">
+      {/* Background Watermark */}
+      <div className="absolute inset-0 pointer-events-none">
+        <img 
+          src="/baykus.png" 
+          alt="Bayku" 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 w-64 h-48"
+        />
+      </div>
+
       {/* Fixed Header Logo */}
-      <div className="flex-none flex justify-center pt-4 pb-2 bg-white">
-        <img src="/baykus.png" alt="Baykuş" width="50" height="38" />
+      <div className="flex-none flex justify-center pt-4 pb-2 bg-white relative z-10">
+        <img src="/baykus.png" alt="Bayku" width="50" height="38" />
       </div>
 
       {/* Main Chat Area - Scrollable */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 min-h-0">
+      <div className="flex-1 overflow-y-auto px-4 py-4 min-h-0 relative z-10">
         <div className="max-w-xl mx-auto">
           {messages.length === 0 ? (
             <div className="flex items-center justify-center h-full">

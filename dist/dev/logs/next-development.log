@@ -1,0 +1,23 @@
+{"timestamp":"00:00:04.369","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:04.370","source":"Server","level":"LOG","message":"  We detected TypeScript in your project and reconfigured your tsconfig.json file for you."}
+{"timestamp":"00:00:04.371","source":"Server","level":"LOG","message":"  The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:\n"}
+{"timestamp":"00:00:04.374","source":"Server","level":"LOG","message":"  \t- include was updated to add 'dist/types/**/*.ts'"}
+{"timestamp":"00:00:04.375","source":"Server","level":"LOG","message":"  \t- include was updated to add 'dist/dev/types/**/*.ts'"}
+{"timestamp":"00:00:04.375","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:05.296","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:33.755","source":"Server","level":"LOG","message":"○ Compiling / ..."}
+{"timestamp":"00:00:38.386","source":"Server","level":"WARN","message":"⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport"}
+{"timestamp":"00:00:39.687","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
+{"timestamp":"00:00:40.905","source":"Server","level":"WARN","message":"⚠ Unsupported metadata viewport is configured in metadata export in /auth. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport"}
+{"timestamp":"00:00:42.462","source":"Browser","level":"LOG","message":"Form submitted: {\"email\":\"omerfarukyericer@gmail.com\",\"isLogin\":true,\"name\":\"\",\"password\":\"123456\"}"}
+{"timestamp":"00:00:42.462","source":"Browser","level":"LOG","message":"Attempting login..."}
+{"timestamp":"00:00:42.723","source":"Browser","level":"LOG","message":"Login result: {\"error\":null}"}
+{"timestamp":"00:00:42.723","source":"Browser","level":"LOG","message":"Login successful, redirecting..."}
+{"timestamp":"00:00:42.724","source":"Browser","level":"LOG","message":"Setting loading to false"}
+{"timestamp":"00:00:43.577","source":"Browser","level":"LOG","message":"Form submitted: {\"email\":\"omerfarukyericer@gmail.com\",\"isLogin\":true,\"name\":\"\",\"password\":\"123456\"}"}
+{"timestamp":"00:00:43.577","source":"Browser","level":"LOG","message":"Attempting login..."}
+{"timestamp":"00:00:43.825","source":"Browser","level":"LOG","message":"Login result: {\"error\":null}"}
+{"timestamp":"00:00:43.825","source":"Browser","level":"LOG","message":"Login successful, redirecting..."}
+{"timestamp":"00:00:43.825","source":"Browser","level":"LOG","message":"Setting loading to false"}
+{"timestamp":"00:00:44.413","source":"Server","level":"WARN","message":"⚠ Unsupported metadata viewport is configured in metadata export in /chat. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport"}
+{"timestamp":"00:00:44.462","source":"Server","level":"WARN","message":"⚠ Unsupported metadata viewport is configured in metadata export in /chat. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport"}
