@@ -26,8 +26,12 @@ export default function AuthPage() {
       const { error } = await signIn(email, password)
       if (error) {
         setError('E-posta veya şifre hatalı')
+        setLoading(false)
       } else {
-        router.push('/chat')
+        // Wait for auth state to update then redirect
+        setTimeout(() => {
+          window.location.href = '/chat'
+        }, 500)
       }
     } else {
       if (!name.trim()) {
@@ -38,12 +42,14 @@ export default function AuthPage() {
       const { error } = await signUp(email, password, name)
       if (error) {
         setError('Kayıt olurken bir hata oluştu')
+        setLoading(false)
       } else {
-        router.push('/chat')
+        // Wait for auth state to update then redirect
+        setTimeout(() => {
+          window.location.href = '/chat'
+        }, 500)
       }
     }
-
-    setLoading(false)
   }
 
   return (
