@@ -14,7 +14,7 @@ export default function AuthPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { signIn, signUp, loading: authLoading } = useAuth()
+  const { signIn, signUp } = useAuth()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,7 +49,7 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4 relative">
       {/* Full-page Loading Overlay */}
-      {(loading || authLoading) && <Loading />}
+      {loading && <Loading />}
 
       <div className="w-full max-w-sm">
         <div className="border-2 border-[#0c003d] rounded-2xl p-6 bg-white">
