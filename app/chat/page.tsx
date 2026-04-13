@@ -189,10 +189,10 @@ export default function ChatPage() {
             // Messages with background logo
             <div className="relative space-y-4 min-h-full">
               {/* Background watermark - always visible */}
-              <div className="fixed inset-0 opacity-5 pointer-events-none flex items-center justify-center z-0">
+              <div className="absolute inset-0 opacity-5 pointer-events-none flex items-center justify-center z-0">
                 <img src="/baykus.png" alt="" width="200" height="153" />
               </div>
-              
+
               <div className="relative z-10 space-y-4">
                 {messages.map((message) => (
                   <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
