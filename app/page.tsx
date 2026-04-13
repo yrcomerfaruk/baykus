@@ -1,5 +1,15 @@
-import { redirect } from 'next/navigation'
+'use client'
+
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Loading from '@/components/Loading'
 
 export default function Home() {
-  redirect('/auth')
+  const router = useRouter()
+
+  useEffect(() => {
+    router.push('/auth')
+  }, [router])
+
+  return <Loading />
 }

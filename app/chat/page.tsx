@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, memo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -186,14 +186,8 @@ export default function ChatPage() {
             <div className="flex items-center justify-center h-full">
             </div>
           ) : (
-            // Messages with background logo
-            <div className="relative space-y-4 min-h-full">
-              {/* Background watermark - always visible */}
-              <div className="absolute inset-0 opacity-5 pointer-events-none flex items-center justify-center z-0">
-                <img src="/baykus.png" alt="" width="200" height="153" />
-              </div>
-
-              <div className="relative z-10 space-y-4">
+            <div className="space-y-4 min-h-full">
+              <div className="space-y-4">
                 {messages.map((message) => (
                   <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {message.role === 'assistant' ? (
