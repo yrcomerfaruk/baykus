@@ -56,7 +56,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4 relative">
+    <div className="min-h-screen flex items-start justify-center bg-white px-4 pt-20 pb-10 relative">
       {/* Full-page Loading Overlay */}
       {loading && <Loading />}
 

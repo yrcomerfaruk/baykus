@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useRef, memo } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/contexts/AuthContext'
+import { useAuth } from '@/contexts/AuthContext' 
 import { supabase } from '@/lib/supabase'
-import { Send, Clock } from 'lucide-react'
+import { Send, Clock, User, X, AlertTriangle, MessageSquarePlus } from 'lucide-react'
 import SuggestedQuestions from '@/components/SuggestedQuestions'
 import Loading from '@/components/Loading'
+import AccountPopup from '@/components/AccountPopup'
 import { query } from '@/lib/chat'
 import ReactMarkdown from 'react-markdown'
 
@@ -25,6 +26,8 @@ export default function ChatPage() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [showQuestions, setShowQuestions] = useState(false)
+  const [showAccountPopup, setShowAccountPopup] = useState(false)
+  const [showNewChatDialog, setShowNewChatDialog] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -63,7 +66,7 @@ export default function ChatPage() {
       const welcomeMessage: Message = {
         id: Date.now().toString(),
         role: 'assistant',
-        content: 'Merhaba! Ben Baykuþ AI. YKS hazýrlýk sürecinde size yardýmcý olmak için buradayým. Matematik, Türkçe, Fizik, Kimya, Biyoloji, Tarih, Coðrafya ve Felsefe derslerinde sorularýnýzý yanýtlayabilirim. Hangi konuda destek almak istersiniz?',
+        content: 'Merhaba! Ben Baykuş AI. YKS hazırlık sürecinde size yardımcı olmak için buradayım. Matematik, Türkçe, Fizik, Kimya, Biyoloji, Tarih, Coğrafya ve Felsefe derslerinde sorularınızı yanıtlayabilirim. Hangi konuda destek almak istersiniz?',
         created_at: new Date().toISOString(),
       }
       setMessages([welcomeMessage])
@@ -168,6 +171,51 @@ export default function ChatPage() {
     }
   }
 
+  const handleNewChat = async () => {
+    if (!user) return
+
+    console.log('Starting new chat process for user:', user.id)
+
+    try {
+      // First clear local state
+      setMessages([])
+      
+      // Delete all messages for this user from database
+      const { error } = await supabase
+        .from('messages')
+        .delete()
+        .eq('user_id', user.id)
+      
+      if (error) {
+        console.error('Database delete error:', error)
+        throw error
+      }
+      
+      console.log('Messages deleted successfully from database')
+
+      // Add welcome message after clearing
+      setTimeout(() => {
+        const welcomeMessage: Message = {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: 'Merhaba! Ben Baykuş AI. YKS hazırlık sürecinde size yardımcı olmak için buradayım. Matematik, Türkçe, Fizik, Kimya, Biyoloji, Tarih, Coğrafya ve Felsefe derslerinde sorularınızı yanıtlayabilirim. Hangi konuda destek almak istersiniz?',
+          created_at: new Date().toISOString(),
+        }
+        setMessages([welcomeMessage])
+      }, 100)
+    } catch (error) {
+      console.error('Clear chat error:', error)
+      // Restore welcome message even if database operation fails
+      const welcomeMessage: Message = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: 'Merhaba! Ben Baykuş AI. YKS hazırlık sürecinde size yardımcı olmak için buradayım. Matematik, Türkçe, Fizik, Kimya, Biyoloji, Tarih, Coğrafya ve Felsefe derslerinde sorularınızı yanıtlayabilirim. Hangi konuda destek almak istersiniz?',
+        created_at: new Date().toISOString(),
+      }
+      setMessages([welcomeMessage])
+    }
+  }
+
   if (authLoading || !user) {
     return <Loading />
   }
@@ -183,13 +231,29 @@ export default function ChatPage() {
         />
       </div>
 
-      {/* Fixed Header Logo */}
-      <div className="flex-none flex justify-center pt-4 pb-2 bg-white relative z-10">
+      {/* Fixed Header Logo with Account and New Chat */}
+      <div className="flex-none flex justify-between items-center pt-4 pb-2 bg-white relative z-10 px-4">
+        <button
+          onClick={() => setShowAccountPopup(true)}
+          className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          title="Hesap Bilgileri"
+        >
+          <User size={20} className="text-[#0c003d]" />
+        </button>
+        
         <img src="/baykus.png" alt="Bayku" width="50" height="38" />
+        
+        <button
+          onClick={() => setShowNewChatDialog(true)}
+          className="p-2 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors"
+          title="Yeni Sohbet"
+        >
+          <MessageSquarePlus size={20} className="text-[#0c003d]" />
+        </button>
       </div>
 
       {/* Main Chat Area - Scrollable */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 min-h-0 relative z-10">
+      <div className="flex-1 overflow-y-auto px-4 py-4 min-h-0 relative z-10 text-black">
         <div className="max-w-xl mx-auto">
           {messages.length === 0 ? (
             <div className="flex items-center justify-center h-full">
@@ -212,7 +276,7 @@ export default function ChatPage() {
                           <button
                             onClick={() => handleRating(message.id, 'up')}
                             className={`transition-colors ${message.rating === 'up' ? 'text-[#0c003d]' : 'text-gray-400 hover:text-green-500'}`}
-                            title="Yardýmcý oldu"
+                            title="Yardımcı oldu"
                           >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.85-1.26l3.03-7.08c.09-.23.12-.47.12-.66v-2z"/>
@@ -221,7 +285,7 @@ export default function ChatPage() {
                           <button
                             onClick={() => handleRating(message.id, 'down')}
                             className={`transition-colors ${message.rating === 'down' ? 'text-[#0c003d]' : 'text-gray-400 hover:text-red-500'}`}
-                            title="Yardýmcý olmadý"
+                            title="Yardımcı olmadı"
                           >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M23 3h-4v12h4V3zm-22 11c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2H6c-.83 0-1.54.5-1.85 1.26l-3.03 7.08c-.09.23-.12.47-.12.66v2z"/>
@@ -257,7 +321,7 @@ export default function ChatPage() {
           <div className="flex items-center border-2 border-[#0c003d] rounded-full px-3 py-2 bg-white shadow-sm w-full">
             <button
               onClick={() => setShowQuestions(!showQuestions)}
-              className="text-[#0c003d] mr-2 flex-shrink-0 hover:scale-110 transition-transform"
+              className="mr-2 flex-shrink-0 hover:scale-110 transition-transform text-[#0c003d]"
               title="Örnek sorular"
             >
               <Clock size={16} />
@@ -268,18 +332,18 @@ export default function ChatPage() {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Bana soru sor"
-              className="flex-1 bg-transparent outline-none text-sm text-[#0c003d] placeholder-gray-400 min-w-0"
+              className="flex-1 bg-transparent outline-none text-sm min-w-0 text-[#0c003d] placeholder-gray-400"
               disabled={loading}
             />
             <button
               onClick={() => handleSend()}
               disabled={loading || !input.trim()}
-              className="ml-2 text-[#0c003d] disabled:opacity-50 flex-shrink-0"
+              className="ml-2 disabled:opacity-50 flex-shrink-0 text-[#0c003d]"
             >
               <Send size={16} />
             </button>
           </div>
-          <p className="text-center text-[10px] text-gray-400 mt-1 mb-1">
+          <p className="text-center text-[10px] mt-1 mb-1 text-gray-400">
             Demo amaçlı yapılmıştır. Veriler profesyonel koç verisi değildir!
           </p>
         </div>
@@ -308,6 +372,63 @@ export default function ChatPage() {
                   setShowQuestions(false)
                 }} />
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Account Popup */}
+      <AccountPopup 
+        isOpen={showAccountPopup} 
+        onClose={() => setShowAccountPopup(false)} 
+      />
+
+      {/* New Chat Dialog */}
+      {showNewChatDialog && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+          <div 
+            className="fixed inset-0 bg-black/20" 
+            onClick={() => setShowNewChatDialog(false)}
+          />
+          
+          <div className="relative bg-white rounded-xl shadow-lg border border-[#0c003d]/20 w-72 p-4 z-[101]">
+            <button
+              onClick={() => setShowNewChatDialog(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-[#0c003d] transition-colors"
+            >
+              <X size={16} />
+            </button>
+
+            <div className="flex items-center gap-3 mb-3 pr-6">
+              <div className="w-9 h-9 bg-[#0c003d]/10 rounded-full flex items-center justify-center flex-shrink-0">
+                <AlertTriangle size={18} className="text-[#0c003d]" />
+              </div>
+              <div>
+                <h3 className="font-medium text-[#0c003d] text-sm">Yeni Sohbet</h3>
+                <p className="text-xs text-gray-500">Önceki sohbetler silinecek</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-gray-600 mb-4 leading-relaxed">
+              Yeni sohbet başlattığınızda, mevcut tüm sohbet geçmişiniz silinecektir.
+            </p>
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowNewChatDialog(false)}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-gray-700 text-sm hover:bg-gray-50 transition-colors"
+              >
+                İptal
+              </button>
+              <button
+                onClick={() => {
+                  handleNewChat()
+                  setShowNewChatDialog(false)
+                }}
+                className="flex-1 px-3 py-2 bg-[#0c003d] text-white text-sm rounded-lg hover:bg-[#1a0066] transition-colors"
+              >
+                Başlat
+              </button>
             </div>
           </div>
         </div>
