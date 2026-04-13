@@ -22,11 +22,16 @@ export default function AuthPage() {
     setError('')
     setLoading(true)
 
+    console.log('Form submitted:', { isLogin, email, password, name })
+
     if (isLogin) {
+      console.log('Attempting login...')
       const { error } = await signIn(email, password)
+      console.log('Login result:', { error })
       if (error) {
         setError('E-posta veya şifre hatalı')
       } else {
+        console.log('Login successful, redirecting...')
         router.push('/chat')
       }
     } else {
@@ -35,14 +40,18 @@ export default function AuthPage() {
         setLoading(false)
         return
       }
+      console.log('Attempting signup...')
       const { error } = await signUp(email, password, name)
+      console.log('Signup result:', { error })
       if (error) {
         setError('Kayıt olurken bir hata oluştu')
       } else {
+        console.log('Signup successful, redirecting...')
         router.push('/chat')
       }
     }
 
+    console.log('Setting loading to false')
     setLoading(false)
   }
 
