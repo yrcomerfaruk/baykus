@@ -221,7 +221,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-white relative">
+    <div className="h-screen w-screen flex flex-col bg-white overflow-hidden relative">
       {/* Background Watermark */}
       <div className="absolute inset-0 pointer-events-none">
         <img 

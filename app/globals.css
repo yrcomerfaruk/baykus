@@ -34,13 +34,18 @@ body {
   -ms-text-size-adjust: 100%;
 }
 
-/* Normal web behavior for iOS Safari compatibility */
+/* Mobile app-like behavior */
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html, body {
-  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  position: relative;
 }
 
 /* Markdown styling */
