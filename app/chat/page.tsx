@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, memo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext' 
 import { supabase } from '@/lib/supabase'
-import { Send, Clock, User, X, AlertTriangle, MessageSquarePlus } from 'lucide-react'
+import { Navigation, Clock, User, X, AlertTriangle, MessageSquarePlus } from 'lucide-react'
 import SuggestedQuestions from '@/components/SuggestedQuestions'
 import Loading from '@/components/Loading'
 import AccountPopup from '@/components/AccountPopup'
@@ -318,7 +318,7 @@ export default function ChatPage() {
       {/* Fixed Input Area */}
       <div className="flex-none px-4 pb-2 pt-2 bg-white border-t border-gray-100 w-full">
         <div className="w-full max-w-xl mx-auto">
-          <div className="flex items-center border-2 border-[#0c003d] rounded-full px-3 py-2 bg-white shadow-sm w-full">
+          <div className="flex items-center border border-[#0c003d] rounded-full px-3 py-1.5 bg-white shadow-sm w-full">
             <button
               onClick={() => setShowQuestions(!showQuestions)}
               className="mr-2 flex-shrink-0 hover:scale-110 transition-transform text-[#0c003d]"
@@ -338,9 +338,9 @@ export default function ChatPage() {
             <button
               onClick={() => handleSend()}
               disabled={loading || !input.trim()}
-              className="ml-2 disabled:opacity-50 flex-shrink-0 text-[#0c003d]"
+              className="ml-2 disabled:opacity-30 flex-shrink-0 text-[#0c003d] hover:text-[#1a0066] transition-colors"
             >
-              <Send size={16} />
+              <Navigation size={20} className="rotate-45" />
             </button>
           </div>
           <p className="text-center text-[10px] mt-1 mb-1 text-gray-400">

@@ -19,10 +19,14 @@ export default function AuthPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    e.stopPropagation()
     setError('')
     setLoading(true)
 
-    console.log('Form submitted:', { isLogin, email, password, name })
+    console.log('Form submitted:', { isLogin, email, password: '***', name })
+    
+    // iOS Safari form submission fix
+    await new Promise(resolve => setTimeout(resolve, 10))
 
     if (isLogin) {
       console.log('Attempting login...')
@@ -56,7 +60,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-start justify-center bg-white px-4 pt-20 pb-10 relative">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4 py-10 relative">
       {/* Full-page Loading Overlay */}
       {loading && <Loading />}
 
@@ -76,7 +80,7 @@ export default function AuthPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Ömer"
-                  className="w-full px-3 py-2.5 border-2 border-[#0c003d] rounded-lg text-sm text-black focus:outline-none focus:ring-1 focus:ring-[#0c003d]"
+                  className="w-full px-3 py-2.5 border-2 border-[#0c003d] rounded-lg text-sm text-black focus:outline-none"
                   required={!isLogin}
                 />
               </div>
@@ -85,11 +89,13 @@ export default function AuthPage() {
             <div>
               <label className="block text-sm font-semibold text-black mb-1.5">E-Mail</label>
               <input
-                type="email"
+                type="text"
+                inputMode="email"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="mailadınız@gmail.com"
-                className="w-full px-3 py-2.5 border-2 border-[#0c003d] rounded-lg text-sm text-black focus:outline-none focus:ring-1 focus:ring-[#0c003d]"
+                className="w-full px-3 py-2.5 border-2 border-[#0c003d] rounded-lg text-sm text-black focus:outline-none"
                 required
               />
             </div>
@@ -102,7 +108,7 @@ export default function AuthPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="*********"
-                  className="w-full px-3 py-2.5 border-2 border-[#0c003d] rounded-lg text-sm text-black focus:outline-none focus:ring-1 focus:ring-[#0c003d] pr-10"
+                  className="w-full px-3 py-2.5 border-2 border-[#0c003d] rounded-lg text-sm text-black focus:outline-none pr-10"
                   required
                 />
                 <button
